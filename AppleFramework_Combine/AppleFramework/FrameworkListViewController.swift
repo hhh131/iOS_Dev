@@ -24,7 +24,7 @@ class FrameworkListViewController: UIViewController {
     let didSelect = PassthroughSubject<AppleFramework,Never>()
     let items = CurrentValueSubject<[AppleFramework],Never>(AppleFramework.list)
     
-    @Published var list: [AppleFramework] = AppleFramework.list
+    //@Published var list: [AppleFramework] = AppleFramework.list
     
     // Data, Presentation, Layout
     override func viewDidLoad() {
@@ -67,7 +67,7 @@ class FrameworkListViewController: UIViewController {
     private func applySectionItems(_ items: [Item], to section: Section = .main){
         var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
         snapshot.appendSections([.main])
-        snapshot.appendItems(list, toSection: .main)
+        snapshot.appendItems(items, toSection: .main)
         dataSource.apply(snapshot)
     }
     private func configureCollectionView(){

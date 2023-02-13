@@ -7,12 +7,15 @@
 
 import UIKit
 import SafariServices
+import Combine
 
 class FrameworkDetailViewController: UIViewController {
     
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
+    var subscriptions = Set<AnyCancellable>()
+    let didSelect = PassthroughSubject<AppleFramework,Never>()
     
     var framework: AppleFramework = AppleFramework(name: "Unknown", imageName: "", urlString: "", description: "")
     
@@ -33,9 +36,7 @@ class FrameworkDetailViewController: UIViewController {
         guard let url = URL(string: framework.urlString) else {
             return
         }
-        
         let safari = SFSafariViewController(url: url)
-        
         present(safari, animated: true)
     }
 }
