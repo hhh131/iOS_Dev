@@ -40,13 +40,17 @@ class FrameworkListViewController: UIViewController {
     }
     private func bind(){
         // input
+        
+ 
         // - item 선택 되었을 떄 처리
-        didSelect
+        
+        
+         didSelect
             .receive(on: RunLoop.main)
             .sink{ [unowned self] framework in
             let sb = UIStoryboard(name: "Detail", bundle: nil)
             let vc = sb.instantiateViewController(withIdentifier: "FrameworkDetailViewController") as! FrameworkDetailViewController
-            vc.framework = framework
+                vc.framework.send(framework)
             
             self.present(vc, animated: true)
             
