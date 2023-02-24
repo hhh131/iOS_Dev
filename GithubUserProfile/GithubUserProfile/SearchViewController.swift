@@ -1,6 +1,6 @@
 import UIKit
 import Combine
-
+import Kingfisher
 
 class UserProfileViewController: UIViewController {
 
@@ -58,7 +58,8 @@ class UserProfileViewController: UIViewController {
         self.loginLabel.text = user.login
         self.followerLabel.text = "follower : \(user.followers)"
         self.followingLabel.text =  "folloings : \(user.following)"
-        self.thumbnail.image = nil
+        self.thumbnail.kf.setImage(with: user.avatarUrl)
+    
     }
     
     
@@ -114,6 +115,11 @@ extension UserProfileViewController: UISearchBarDelegate{
             .receive(on: RunLoop.main)
             .sink{ completion in
                 print("completion \(completion)")
+                switch completion {
+                case .failure(let error):
+                    self.user = nil
+                case .finished: break
+                }
             } receiveValue: { user in
                 self.user = user
             }.store(in: &subscription)
