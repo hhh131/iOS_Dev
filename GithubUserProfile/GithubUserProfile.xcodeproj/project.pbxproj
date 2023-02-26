@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5418CDE529AB476F00455BB2 /* FollowerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5418CDE429AB476F00455BB2 /* FollowerViewController.swift */; };
 		54BAEAA729A929240031527D /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 54BAEAA629A929240031527D /* Kingfisher */; };
 		941BDB172842567A00DF0BFC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941BDB162842567A00DF0BFC /* AppDelegate.swift */; };
 		941BDB192842567A00DF0BFC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941BDB182842567A00DF0BFC /* SceneDelegate.swift */; };
@@ -42,7 +41,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		5418CDE429AB476F00455BB2 /* FollowerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerViewController.swift; sourceTree = "<group>"; };
 		941BDB132842567A00DF0BFC /* GithubUserProfile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GithubUserProfile.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		941BDB162842567A00DF0BFC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		941BDB182842567A00DF0BFC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -116,7 +114,6 @@
 				941BDB4B284256B900DF0BFC /* Utils */,
 				941BDB46284256AD00DF0BFC /* Network */,
 				941BDB1C2842567A00DF0BFC /* Main.storyboard */,
-				5418CDE429AB476F00455BB2 /* FollowerViewController.swift */,
 				941BDB4E2842570D00DF0BFC /* SearchViewController.swift */,
 				941BDB52284257DC00DF0BFC /* Model */,
 				941BDB1F2842567B00DF0BFC /* Assets.xcassets */,
@@ -305,7 +302,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5418CDE529AB476F00455BB2 /* FollowerViewController.swift in Sources */,
 				941BDB4F2842570D00DF0BFC /* SearchViewController.swift in Sources */,
 				941BDB512842574700DF0BFC /* UserProfile.swift in Sources */,
 				941BDB172842567A00DF0BFC /* AppDelegate.swift in Sources */,

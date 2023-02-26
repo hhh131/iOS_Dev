@@ -15,8 +15,6 @@ class UserProfileViewController: UIViewController {
     @IBOutlet weak var followerLabel: UILabel!
     @IBOutlet weak var followingLabel: UILabel!
     
-    @IBOutlet var followerBtn: UIButton!
-    var keyword = ""
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -65,22 +63,12 @@ class UserProfileViewController: UIViewController {
     
     }
     
-    @IBAction func FollowerBtnClicked(_ sender: Any) {
-        
-        let sb = UIStoryboard(name: "Main", bundle: nil)
-        let vc = self.instantiateViewController(withIdentifier: "FollowerViewController") as! FollowerViewController
-            
-        vc.userName = keyword
-     
-        self.present(vc, animated: true)
-        
-    }
     
 }
 
 extension UserProfileViewController: UISearchResultsUpdating{
     func updateSearchResults(for searchController: UISearchController) {
-         keyword = searchController.searchBar.text ?? ""
+        let keyword = searchController.searchBar.text
         
         print("\(keyword)")
         
@@ -97,7 +85,22 @@ extension UserProfileViewController: UISearchBarDelegate{
         "https://api.github.com/users/\(keyword)"
         
         // Resource
-
+//        let base = "https://api.github.com/"
+//        let path = "users/\(keyword)"
+//        let params: [String: String] = [:]
+//        let header: [String: String] = ["Content-Type": "application/json"]
+//
+//        var urlComponents = URLComponents(string: base + path)!
+//        let queryItems = params.map{ (key:String, value: String) in
+//            return  URLQueryItem(name: key, value: value)
+//
+//        }
+//        urlComponents.queryItems = queryItems
+//
+//        var request = URLRequest(url: urlComponents.url!)
+//        header.forEach { (key: String, value: String) in
+//            request.addValue(value, forHTTPHeaderField: key)
+//        }
         let resource =  Resource<UserProfile>(
          base: "https://api.github.com/",
          path: "users/\(keyword)",
@@ -121,24 +124,6 @@ extension UserProfileViewController: UISearchBarDelegate{
                 self.user = user
             }.store(in: &subscription)
                 
-        
-        //        let base = "https://api.github.com/"
-        //        let path = "users/\(keyword)"
-        //        let params: [String: String] = [:]
-        //        let header: [String: String] = ["Content-Type": "application/json"]
-        //
-        //        var urlComponents = URLComponents(string: base + path)!
-        //        let queryItems = params.map{ (key:String, value: String) in
-        //            return  URLQueryItem(name: key, value: value)
-        //
-        //        }
-        //        urlComponents.queryItems = queryItems
-        //
-        //        var request = URLRequest(url: urlComponents.url!)
-        //        header.forEach { (key: String, value: String) in
-        //            request.addValue(value, forHTTPHeaderField: key)
-        //        }
-        
         
 //        URLSession.shared
 //            .dataTaskPublisher(for: request)
