@@ -84,13 +84,19 @@ class SearchViewController: UIViewController {
 extension SearchViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         let keyword = searchController.searchBar.text
-        print("\(keyword)")
+        print("\(keyword)")7u8879
         
     }
 }
 
 extension SearchViewController: UISearchBarDelegate {
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+    func searchBarSearchButtonClicked(_ sea chBar: UISearchBar) {
         print("button clicked: \(searchBar.text)")
+        
+        guard let keyword = searchBar.text, !keyword.isEmpty else { return }
+        let base = ""
+        let path = ""
+        let params: [String: String] = ""
+        let header: [String: String] = ""
     }
 }
