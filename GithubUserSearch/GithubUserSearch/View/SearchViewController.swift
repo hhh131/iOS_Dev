@@ -9,7 +9,7 @@ import UIKit
 import Combine
 
 class SearchViewController: UIViewController {
-    
+    let network = NetworkService(configuration: .default)
     @Published private(set) var users: [SearchResult] = []
     var subscription = Set<AnyCancellable>()
     
@@ -44,7 +44,7 @@ class SearchViewController: UIViewController {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ResultCell", for: indexPath) as? ResultCell else { return nil }
             
             cell.user.text = item.login
-            return nil
+            return cell
         })
         
         collectionView.collectionViewLayout = layout()
@@ -58,7 +58,7 @@ class SearchViewController: UIViewController {
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
-        return UICollectionViewCompositionalLayout(section: section )
+        return UICollectionViewCompositionalLayout(section: section)
     }
     
     private func bind() {
@@ -68,11 +68,24 @@ class SearchViewController: UIViewController {
               var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
                 snapshot.appendSections([.main])
                 snapshot.appendItems(user,toSection: .main)
-                
+                self.datasource.apply(snapshot)
             }.store(in: &subscription)
         
     }
-    
+    private func NetworkProcess(keyword: String){
+        let resource = Resource<SearchUserResponse> (
+            base: "https://api.github.com/",
+            path: "search/users",
+            params: ["q": keyword] ,
+            header: ["Content-Type": "application/json"]
+        )
+        network.load(resource)
+            .map{ $0.items }
+            .replaceError(with: [])
+            .receive(on: RunLoop.main)
+            .assign(to: \.users, on: self)
+            .store(in: &subscription)
+    }
 
     //collectionView 구성
     // bind()
@@ -83,9 +96,9 @@ class SearchViewController: UIViewController {
 }
 extension SearchViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        let keyword = searchController.searchBar.text
+        let keyword = searchController.searchBar.text!
         print("\(keyword)")
-        
+        //NetworkProcess(keyword: keyword)
     }
 }
 
@@ -94,31 +107,41 @@ extension SearchViewController: UISearchBarDelegate {
         print("button clicked: \(searchBar.text)")
         
         guard let keyword = searchBar.text, !keyword.isEmpty else { return }
-        let base = "https://api.github.com/"
-        let path = "search/users"
-        let params: [String: String] = ["q": keyword]
-        let header: [String: String] = ["Content-Type": "application/json"]
         
-        var urlComponents = URLComponents(string: base + path)!
-        let queryItems = params.map { (key: String, value: String) in
-            return URLQueryItem(name: key, value: value)
-        }
-        urlComponents.queryItems = queryItems
+        NetworkProcess(keyword: keyword)
         
-        var request = URLRequest(url: urlComponents.url!)
-        header.forEach { (key: String, value: String) in
-            request.addValue(value, forHTTPHeaderField: key)
-
-        }
         
-        URLSession.shared.dataTaskPublisher(for: request)
-            .map { $0.data }
-            .decode(type: SearchUserResponse.self, decoder: JSONDecoder() )
-            .map { $0.items }
-            .replaceError(with: [])
-            .receive(on: RunLoop.main)
-            .assign(to: \.users, on: self)
-            .store(in: &subscription)
-    
+        //        let base = "https://api.github.com/"
+        //        let path = "search/users"
+        //        let params: [String: String] = ["q": keyword]
+        //        let header: [String: String] = ["Content-Type": "application/json"]
+        //
+        //        var urlComponents = URLComponents(string: base + path)!
+        //        let queryItems = params.map { (key: String, value: String) in
+        //            return URLQueryItem(name: key, value: value)
+        //        }
+        //        urlComponents.queryItems = queryItems
+        //
+        //        var request = URLRequest(url: urlComponents.url!)
+        //        header.forEach { (key: String, value: String) in
+        //            request.addValue(value, forHTTPHeaderField: key)
+        //
+        //        }
+        //
+        
+        
+        
+        //        URLSession.shared.dataTaskPublisher(for: request)
+        //            .map { $0.data }
+        //            .decode(type: SearchUserResponse.self, decoder: JSONDecoder() )
+        //            .map { $0.items }
+        //            .replaceError(with: [])
+        //            .receive(on: RunLoop.main)
+        //            .assign(to: \.users, on: self)
+        //            .store(in: &subscription)
+        //
+        //    }
     }
+    
+    
 }
