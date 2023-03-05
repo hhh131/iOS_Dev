@@ -43,7 +43,7 @@ final class SearchViewModel{
   
     
     // user Action -> Input
-    func search(keyword: String){
+    func search(keyword: String){0
         
         let resource = Resource<UserProfile>(base: "https://api.github.com/", path: "users/\(keyword)", params: [:], header: ["Content-Type": "application/json"])
         
